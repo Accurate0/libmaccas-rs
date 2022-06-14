@@ -37,8 +37,7 @@ pub struct OfferResponse {
     pub response: Option<OfferList>,
 }
 
-#[derive(ts_rs::TS, Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[ts(export)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Status {
     #[serde(skip_serializing, skip_deserializing)]
@@ -147,8 +146,6 @@ pub struct SaleAmountCondition {
     pub include_gift_coupons: bool,
 }
 
-#[derive(ts_rs::TS)]
-#[ts(export)]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RestaurantLocationResponse {
@@ -156,16 +153,12 @@ pub struct RestaurantLocationResponse {
     pub response: Option<RestaurantLocationList>,
 }
 
-#[derive(ts_rs::TS)]
-#[ts(export)]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RestaurantLocationList {
     pub restaurants: Vec<Restaurant>,
 }
 
-#[derive(ts_rs::TS)]
-#[ts(export)]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Restaurant {
@@ -185,8 +178,6 @@ pub struct Restaurant {
     pub phone_number: Option<String>,
 }
 
-#[derive(ts_rs::TS)]
-#[ts(export)]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Address {
@@ -202,8 +193,6 @@ pub struct McDeliveries {
     pub mc_delivery: Vec<Value>,
 }
 
-#[derive(ts_rs::TS)]
-#[ts(export)]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Location {
@@ -296,8 +285,6 @@ pub struct FrequencyOfferInfo {
     pub total_punch: i64,
 }
 
-#[derive(ts_rs::TS)]
-#[ts(export)]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct OfferDealStackResponse {
@@ -305,8 +292,7 @@ pub struct OfferDealStackResponse {
     pub response: Option<OfferDealStack>,
 }
 
-#[derive(ts_rs::TS, Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[ts(export)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct OfferDealStack {
     pub random_code: String,
@@ -316,8 +302,7 @@ pub struct OfferDealStack {
     pub deal_stack: Option<Vec<DealStack>>,
 }
 
-#[derive(ts_rs::TS, Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[ts(export)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DealStack {
     pub offer_id: i64,
