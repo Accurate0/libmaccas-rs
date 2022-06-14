@@ -1,7 +1,10 @@
 [package]
 name = "libmaccas"
-version = "2.1.0"
+version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "McDonald's API Client"
+repository = "https://github.com/Accurate0/libmaccas-rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
