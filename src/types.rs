@@ -17,7 +17,7 @@ pub struct TokenResponse {
     pub response: Token,
 }
 
-#[derive(serde::Deserialize, std::fmt::Debug)]
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AccessTokenResponse {
     pub access_token: String,
@@ -292,13 +292,6 @@ pub struct DealStack {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct LoginRefreshResponse {
-    pub response: Option<LoginRefreshResp>,
+    pub response: Option<AccessTokenResponse>,
     pub status: Status,
-}
-
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct LoginRefreshResp {
-    pub access_token: String,
-    pub refresh_token: String,
 }
