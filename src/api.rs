@@ -87,14 +87,16 @@ impl ApiClient<'_> {
         Ok(response)
     }
 
-    pub async fn customer_login<A, B>(
+    pub async fn customer_login<A, B, C>(
         &self,
         login_username: &A,
         login_password: &B,
+        sensor_data: &C,
     ) -> Response<LoginResponse>
     where
         A: Display + ?Sized,
         B: Display + ?Sized,
+        C: Display + ?Sized,
     {
         let token = self.login_token.as_ref().ok_or("no login token set")?;
         let mut rng = StdRng::from_entropy();
@@ -112,7 +114,7 @@ impl ApiClient<'_> {
         let request = self
             .get_default_request("exp/v1/customer/login", Method::POST)
             .bearer_auth(token)
-            .header("x-acf-sensor-data", std::include_str!("sensor.data"))
+            .header("x-acf-sensor-data", sensor_data.to_string())
             .json(&credentials);
 
         let response = request.send().await?.json::<LoginResponse>().await?;
