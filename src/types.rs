@@ -40,11 +40,9 @@ pub struct OfferResponse {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Status {
-    #[serde(skip_serializing, skip_deserializing)]
     pub code: i64,
-    #[serde(rename = "type", skip_serializing, skip_deserializing)]
     pub type_field: String,
-    #[serde(rename = "correlationID", skip_serializing, skip_deserializing)]
+    #[serde(rename = "correlationID")]
     pub correlation_id: Option<String>,
     pub message: String,
 }
@@ -60,7 +58,6 @@ pub struct OfferList {
 pub struct Offer {
     pub offer_id: i64,
     pub offer_proposition_id: i64,
-    #[serde(skip_serializing, skip_deserializing)]
     pub offer_type: i64,
     pub local_valid_from: String,
     pub local_valid_to: String,
@@ -69,41 +66,27 @@ pub struct Offer {
     #[serde(rename = "validToUTC")]
     pub valid_to_utc: String,
     pub name: String,
-    #[serde(skip_serializing, skip_deserializing)]
     pub short_description: String,
     pub long_description: String,
     pub image_base_name: String,
-    #[serde(skip_serializing, skip_deserializing)]
     pub image_base_language: String,
-    #[serde(skip_serializing, skip_deserializing)]
     pub redemption_mode: i64,
-    #[serde(skip_serializing, skip_deserializing)]
     pub is_archived: bool,
-    #[serde(rename = "isSLPOffer", skip_serializing, skip_deserializing)]
+    #[serde(rename = "isSLPOffer")]
     pub is_slpoffer: bool,
-    #[serde(skip_serializing, skip_deserializing)]
     pub is_locked: bool,
-    #[serde(skip_serializing, skip_deserializing)]
     pub is_redeemed: bool,
-    #[serde(skip_serializing, skip_deserializing)]
     pub offer_bucket: String,
-    #[serde(skip_serializing, skip_deserializing)]
     pub punch_info: PunchInfo,
-    #[serde(skip_serializing, skip_deserializing)]
     pub recurring_info: RecurringInfo,
-    #[serde(skip_serializing, skip_deserializing)]
     pub conditions: Conditions,
-    #[serde(skip_serializing, skip_deserializing)]
     pub color_coding_info: i64,
-    #[serde(skip_serializing, skip_deserializing)]
     pub isvalid_total_order: bool,
     #[serde(rename = "CreationDateUtc")]
     pub creation_date_utc: String,
-    #[serde(rename = "extendToEOD", skip_serializing, skip_deserializing)]
+    #[serde(rename = "extendToEOD")]
     pub extend_to_eod: bool,
-    #[serde(skip_serializing, skip_deserializing)]
     pub is_dynamic_expiration: bool,
-    #[serde(skip_serializing, skip_deserializing)]
     pub daypart_filters: Vec<Value>,
 }
 
@@ -163,17 +146,14 @@ pub struct RestaurantLocationList {
 #[serde(rename_all = "camelCase")]
 pub struct Restaurant {
     pub restaurant_status: String,
-    #[serde(skip_serializing, skip_deserializing)]
     pub facilities: Vec<String>,
     pub address: Address,
-    #[serde(skip_serializing, skip_deserializing)]
     pub mc_deliveries: McDeliveries,
     pub location: Location,
     pub name: String,
     pub national_store_number: i64,
     pub status: i64,
     pub time_zone: String,
-    #[serde(skip_serializing, skip_deserializing)]
     pub week_opening_hours: Vec<WeekOpeningHour>,
     pub phone_number: Option<String>,
 }
@@ -296,7 +276,6 @@ pub struct OfferDealStackResponse {
 #[serde(rename_all = "camelCase")]
 pub struct OfferDealStack {
     pub random_code: String,
-    #[serde(skip_serializing, skip_deserializing)]
     pub bar_code_content: String,
     pub expiration_time: String,
     pub deal_stack: Option<Vec<DealStack>>,
