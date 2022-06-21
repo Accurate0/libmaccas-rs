@@ -1,15 +1,14 @@
-use std::fmt::Display;
-
 use crate::types::{
-    LoginRefreshResponse, LoginResponse, OfferDealStackResponse, OfferDetailsResponse,
-    OfferResponse, RestaurantLocationResponse, TokenResponse,
+    ClientResponse, LoginRefreshResponse, LoginResponse, OfferDealStackResponse,
+    OfferDetailsResponse, OfferResponse, RestaurantLocationResponse, TokenResponse,
 };
-use crate::Response;
+use crate::ClientResult;
 use rand::distributions::{Alphanumeric, DistString};
 use rand::rngs::StdRng;
 use rand::SeedableRng;
 use reqwest::Method;
 use reqwest_middleware::{ClientWithMiddleware, RequestBuilder};
+use std::fmt::Display;
 use uuid::Uuid;
 
 pub struct ApiClient<'a> {
@@ -67,7 +66,10 @@ impl ApiClient<'_> {
         self.auth_token = Some(auth_token.to_string());
     }
 
-    pub async fn security_auth_token<A>(&self, client_secret: &A) -> Response<TokenResponse>
+    pub async fn security_auth_token<A>(
+        &self,
+        client_secret: &A,
+    ) -> ClientResult<ClientResponse<TokenResponse>>
     where
         A: Display + ?Sized,
     {
@@ -82,9 +84,8 @@ impl ApiClient<'_> {
                 "application/x-www-form-urlencoded; charset=UTF-8",
             );
 
-        let response = request.send().await?.json::<TokenResponse>().await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 
     pub async fn customer_login<A, B, C>(
@@ -92,7 +93,7 @@ impl ApiClient<'_> {
         login_username: &A,
         login_password: &B,
         sensor_data: &C,
-    ) -> Response<LoginResponse>
+    ) -> ClientResult<ClientResponse<LoginResponse>>
     where
         A: Display + ?Sized,
         B: Display + ?Sized,
@@ -117,9 +118,8 @@ impl ApiClient<'_> {
             .header("x-acf-sensor-data", sensor_data.to_string())
             .json(&credentials);
 
-        let response = request.send().await?.json::<LoginResponse>().await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 
     // https://ap-prod.api.mcd.com/exp/v1/offers?distance=10000&exclude=14&latitude=-32.0117&longitude=115.8845&optOuts=&timezoneOffsetInMinutes=480
@@ -130,7 +130,7 @@ impl ApiClient<'_> {
         longitude: &C,
         opt_outs: &D,
         timezone_offset_in_minutes: &E,
-    ) -> Response<OfferResponse>
+    ) -> ClientResult<ClientResponse<OfferResponse>>
     where
         A: Display + ?Sized,
         B: Display + ?Sized,
@@ -155,9 +155,8 @@ impl ApiClient<'_> {
             .query(&params)
             .bearer_auth(token);
 
-        let response = request.send().await?.json::<OfferResponse>().await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 
     // https://ap-prod.api.mcd.com/exp/v1/restaurant/location?distance=20&filter=summary&latitude=-32.0117&longitude=115.8845
@@ -167,7 +166,7 @@ impl ApiClient<'_> {
         latitude: &B,
         longitude: &C,
         filter: &D,
-    ) -> Response<RestaurantLocationResponse>
+    ) -> ClientResult<ClientResponse<RestaurantLocationResponse>>
     where
         A: Display + ?Sized,
         B: Display + ?Sized,
@@ -187,17 +186,15 @@ impl ApiClient<'_> {
             .query(&params)
             .bearer_auth(token);
 
-        let response = request
-            .send()
-            .await?
-            .json::<RestaurantLocationResponse>()
-            .await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 
     // https://ap-prod.api.mcd.com/exp/v1/offers/details/166870
-    pub async fn offer_details<S>(&self, offer_id: &S) -> Response<OfferDetailsResponse>
+    pub async fn offer_details<S>(
+        &self,
+        offer_id: &S,
+    ) -> ClientResult<ClientResponse<OfferDetailsResponse>>
     where
         S: Display + ?Sized,
     {
@@ -210,9 +207,8 @@ impl ApiClient<'_> {
             )
             .bearer_auth(token);
 
-        let response = request.send().await?.json::<OfferDetailsResponse>().await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/offers/dealstack?offset=480&storeId=951488
@@ -220,7 +216,7 @@ impl ApiClient<'_> {
         &self,
         offset: &A,
         store_id: &B,
-    ) -> Response<OfferDealStackResponse>
+    ) -> ClientResult<ClientResponse<OfferDealStackResponse>>
     where
         A: Display + ?Sized,
         B: Display + ?Sized,
@@ -236,13 +232,8 @@ impl ApiClient<'_> {
             .query(&params)
             .bearer_auth(token);
 
-        let response = request
-            .send()
-            .await?
-            .json::<OfferDealStackResponse>()
-            .await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/offers/dealstack/166870?offerId=1139347703&offset=480&storeId=951488
@@ -251,7 +242,7 @@ impl ApiClient<'_> {
         offer_id: &A,
         offset: &B,
         store_id: &C,
-    ) -> Response<OfferDealStackResponse>
+    ) -> ClientResult<ClientResponse<OfferDealStackResponse>>
     where
         A: Display + ?Sized,
         B: Display + ?Sized,
@@ -271,13 +262,8 @@ impl ApiClient<'_> {
             .query(&params)
             .bearer_auth(token);
 
-        let response = request
-            .send()
-            .await?
-            .json::<OfferDealStackResponse>()
-            .await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 
     // DELETE https://ap-prod.api.mcd.com/exp/v1/offers/dealstack/offer/166870?offerId=1139347703&offset=480&storeId=951488
@@ -287,7 +273,7 @@ impl ApiClient<'_> {
         offer_proposition_id: &B,
         offset: &C,
         store_id: &D,
-    ) -> Response<OfferDealStackResponse>
+    ) -> ClientResult<ClientResponse<OfferDealStackResponse>>
     where
         A: Display + ?Sized,
         B: Display + ?Sized,
@@ -320,20 +306,15 @@ impl ApiClient<'_> {
             .query(&params)
             .bearer_auth(token);
 
-        let response = request
-            .send()
-            .await?
-            .json::<OfferDealStackResponse>()
-            .await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 
     // https://ap-prod.api.mcd.com/exp/v1/customer/login/refresh
     pub async fn customer_login_refresh<S>(
         &self,
         refresh_token: &S,
-    ) -> Response<LoginRefreshResponse>
+    ) -> ClientResult<ClientResponse<LoginRefreshResponse>>
     where
         S: Display + ?Sized,
     {
@@ -345,8 +326,7 @@ impl ApiClient<'_> {
             .bearer_auth(token)
             .json(&body);
 
-        let response = request.send().await?.json::<LoginRefreshResponse>().await?;
-
-        Ok(response)
+        let response = request.send().await?;
+        Ok(ClientResponse::from_response(response).await?)
     }
 }

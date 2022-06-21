@@ -1,9 +1,29 @@
-// literally a bunch of types, we won't always use everything so..
-#![allow(dead_code)]
-
+use http::HeaderMap;
+use http::StatusCode;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use serde_json::Value;
+
+use crate::Error;
+
+pub struct ClientResponse<T> {
+    pub status: StatusCode,
+    pub headers: HeaderMap,
+    pub body: T,
+}
+
+impl<'a, T> ClientResponse<T>
+where
+    T: for<'de> serde::Deserialize<'de>,
+{
+    pub async fn from_response(resp: reqwest::Response) -> Result<Self, Error> {
+        Ok(Self {
+            status: resp.status(),
+            headers: resp.headers().clone(),
+            body: resp.json::<T>().await?,
+        })
+    }
+}
 
 #[derive(serde::Deserialize, std::fmt::Debug)]
 pub struct Token {
