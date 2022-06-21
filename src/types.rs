@@ -61,7 +61,7 @@ pub struct OfferResponse {
 #[serde(rename_all = "camelCase")]
 pub struct Status {
     pub code: i64,
-    pub type_field: String,
+    pub type_field: Option<String>,
     #[serde(rename = "correlationID")]
     pub correlation_id: Option<String>,
     pub message: String,
