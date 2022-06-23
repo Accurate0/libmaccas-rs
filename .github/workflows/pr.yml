@@ -1,0 +1,25 @@
+name: pr
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+concurrency:
+  group: environment-${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install musl gcc
+        run: sudo apt install musl-tools
+
+      - uses: actions/checkout@v2
+      - name: rust-toolchain
+        uses: actions-rs/toolchain@v1.0.6
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: cargo build
+        run: cargo build --release

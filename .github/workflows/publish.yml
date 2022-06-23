@@ -17,6 +17,10 @@ jobs:
         with:
           toolchain: stable
           override: true
+
+      - name: cargo build
+        run: cargo build --release
+
       - uses: katyo/publish-crates@v1
         with:
           registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
