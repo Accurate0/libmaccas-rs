@@ -49,7 +49,7 @@ impl ApiClient<'_> {
     }
 
     pub fn get_uuid() -> String {
-        Uuid::new_v4().to_hyphenated().to_string()
+        Uuid::new_v4().as_hyphenated().to_string()
     }
 
     pub fn set_login_token<S>(&mut self, login_token: S)
