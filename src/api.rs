@@ -8,7 +8,8 @@ use rand::rngs::StdRng;
 use rand::SeedableRng;
 use reqwest::Method;
 use reqwest_middleware::{ClientWithMiddleware, RequestBuilder};
-use std::fmt::Display;
+use std::fmt::{Debug, Display};
+use tracing::instrument;
 use uuid::Uuid;
 
 pub struct ApiClient<'a> {
@@ -17,6 +18,15 @@ pub struct ApiClient<'a> {
     auth_token: Option<String>,
     login_token: Option<String>,
     client_id: String,
+}
+
+impl Debug for ApiClient<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ApiClient")
+            .field("base_url", &self.base_url)
+            .field("client", &self.client)
+            .finish()
+    }
 }
 
 impl ApiClient<'_> {
@@ -66,12 +76,13 @@ impl ApiClient<'_> {
         self.auth_token = Some(auth_token.to_string());
     }
 
+    #[instrument(ret)]
     pub async fn security_auth_token<A>(
         &self,
         client_secret: &A,
     ) -> ClientResult<ClientResponse<TokenResponse>>
     where
-        A: Display + ?Sized,
+        A: Display + ?Sized + Debug,
     {
         let default_params = [("grantType", "client_credentials")];
         let request = self
@@ -88,6 +99,7 @@ impl ApiClient<'_> {
         Ok(ClientResponse::from_response(response).await?)
     }
 
+    #[instrument(ret)]
     pub async fn customer_login<A, B, C>(
         &self,
         login_username: &A,
@@ -95,9 +107,9 @@ impl ApiClient<'_> {
         sensor_data: &C,
     ) -> ClientResult<ClientResponse<LoginResponse>>
     where
-        A: Display + ?Sized,
-        B: Display + ?Sized,
-        C: Display + ?Sized,
+        A: Display + ?Sized + Debug,
+        B: Display + ?Sized + Debug,
+        C: Display + ?Sized + Debug,
     {
         let token = self.login_token.as_ref().ok_or("no login token set")?;
         let mut rng = StdRng::from_entropy();
@@ -123,6 +135,7 @@ impl ApiClient<'_> {
     }
 
     // https://ap-prod.api.mcd.com/exp/v1/offers?distance=10000&exclude=14&latitude=-32.0117&longitude=115.8845&optOuts=&timezoneOffsetInMinutes=480
+    #[instrument(ret)]
     pub async fn get_offers<A, B, C, D, E>(
         &self,
         distance: &A,
@@ -132,11 +145,11 @@ impl ApiClient<'_> {
         timezone_offset_in_minutes: &E,
     ) -> ClientResult<ClientResponse<OfferResponse>>
     where
-        A: Display + ?Sized,
-        B: Display + ?Sized,
-        C: Display + ?Sized,
-        D: Display + ?Sized,
-        E: Display + ?Sized,
+        A: Display + ?Sized + Debug,
+        B: Display + ?Sized + Debug,
+        C: Display + ?Sized + Debug,
+        D: Display + ?Sized + Debug,
+        E: Display + ?Sized + Debug,
     {
         let params = Vec::from([
             (String::from("distance"), distance.to_string()),
@@ -160,6 +173,7 @@ impl ApiClient<'_> {
     }
 
     // https://ap-prod.api.mcd.com/exp/v1/restaurant/location?distance=20&filter=summary&latitude=-32.0117&longitude=115.8845
+    #[instrument(ret)]
     pub async fn restaurant_location<A, B, C, D>(
         &self,
         distance: &A,
@@ -168,10 +182,10 @@ impl ApiClient<'_> {
         filter: &D,
     ) -> ClientResult<ClientResponse<RestaurantLocationResponse>>
     where
-        A: Display + ?Sized,
-        B: Display + ?Sized,
-        C: Display + ?Sized,
-        D: Display + ?Sized,
+        A: Display + ?Sized + Debug,
+        B: Display + ?Sized + Debug,
+        C: Display + ?Sized + Debug,
+        D: Display + ?Sized + Debug,
     {
         let params = Vec::from([
             (String::from("distance"), distance.to_string()),
@@ -191,12 +205,13 @@ impl ApiClient<'_> {
     }
 
     // https://ap-prod.api.mcd.com/exp/v1/offers/details/166870
+    #[instrument(ret)]
     pub async fn offer_details<S>(
         &self,
         offer_id: &S,
     ) -> ClientResult<ClientResponse<OfferDetailsResponse>>
     where
-        S: Display + ?Sized,
+        S: Display + ?Sized + Debug,
     {
         let token = self.auth_token.as_ref().ok_or("no auth token set")?;
 
@@ -212,14 +227,15 @@ impl ApiClient<'_> {
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/offers/dealstack?offset=480&storeId=951488
+    #[instrument(ret)]
     pub async fn get_offers_dealstack<A, B>(
         &self,
         offset: &A,
         store_id: &B,
     ) -> ClientResult<ClientResponse<OfferDealStackResponse>>
     where
-        A: Display + ?Sized,
-        B: Display + ?Sized,
+        A: Display + ?Sized + Debug,
+        B: Display + ?Sized + Debug,
     {
         let token = self.auth_token.as_ref().ok_or("no auth token set")?;
         let params = Vec::from([
@@ -237,6 +253,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/offers/dealstack/166870?offerId=1139347703&offset=480&storeId=951488
+    #[instrument(ret)]
     pub async fn add_to_offers_dealstack<A, B, C>(
         &self,
         offer_id: &A,
@@ -244,9 +261,9 @@ impl ApiClient<'_> {
         store_id: &C,
     ) -> ClientResult<ClientResponse<OfferDealStackResponse>>
     where
-        A: Display + ?Sized,
-        B: Display + ?Sized,
-        C: Display + ?Sized,
+        A: Display + ?Sized + Debug,
+        B: Display + ?Sized + Debug,
+        C: Display + ?Sized + Debug,
     {
         let token = self.auth_token.as_ref().ok_or("no auth token set")?;
         let params = Vec::from([
@@ -267,6 +284,7 @@ impl ApiClient<'_> {
     }
 
     // DELETE https://ap-prod.api.mcd.com/exp/v1/offers/dealstack/offer/166870?offerId=1139347703&offset=480&storeId=951488
+    #[instrument(ret)]
     pub async fn remove_from_offers_dealstack<A, B, C, D>(
         &self,
         offer_id: &A,
@@ -275,10 +293,10 @@ impl ApiClient<'_> {
         store_id: &D,
     ) -> ClientResult<ClientResponse<OfferDealStackResponse>>
     where
-        A: Display + ?Sized,
-        B: Display + ?Sized,
-        C: Display + ?Sized,
-        D: Display + ?Sized,
+        A: Display + ?Sized + Debug,
+        B: Display + ?Sized + Debug,
+        C: Display + ?Sized + Debug,
+        D: Display + ?Sized + Debug,
     {
         // the app sends a body, but this request works without it
         // but we're pretending to be the app :)
@@ -311,12 +329,13 @@ impl ApiClient<'_> {
     }
 
     // https://ap-prod.api.mcd.com/exp/v1/customer/login/refresh
+    #[instrument(ret)]
     pub async fn customer_login_refresh<S>(
         &self,
         refresh_token: &S,
     ) -> ClientResult<ClientResponse<LoginRefreshResponse>>
     where
-        S: Display + ?Sized,
+        S: Display + ?Sized + Debug,
     {
         let token = self.auth_token.as_ref().ok_or("no auth token set")?;
         let body = serde_json::json!({ "refreshToken": refresh_token.to_string() });
