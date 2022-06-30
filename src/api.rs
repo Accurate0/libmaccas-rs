@@ -96,6 +96,8 @@ impl ApiClient<'_> {
             );
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 
@@ -131,6 +133,8 @@ impl ApiClient<'_> {
             .json(&credentials);
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 
@@ -169,6 +173,8 @@ impl ApiClient<'_> {
             .bearer_auth(token);
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 
@@ -201,6 +207,8 @@ impl ApiClient<'_> {
             .bearer_auth(token);
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 
@@ -223,6 +231,8 @@ impl ApiClient<'_> {
             .bearer_auth(token);
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 
@@ -249,6 +259,8 @@ impl ApiClient<'_> {
             .bearer_auth(token);
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 
@@ -280,6 +292,8 @@ impl ApiClient<'_> {
             .bearer_auth(token);
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 
@@ -325,6 +339,8 @@ impl ApiClient<'_> {
             .bearer_auth(token);
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 
@@ -346,6 +362,8 @@ impl ApiClient<'_> {
             .json(&body);
 
         let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
         Ok(ClientResponse::from_response(response).await?)
     }
 }
