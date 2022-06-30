@@ -89,7 +89,7 @@ pub struct Offer {
     pub short_description: String,
     pub long_description: String,
     pub image_base_name: String,
-    pub image_base_language: String,
+    pub image_base_language: Option<String>,
     pub redemption_mode: i64,
     pub is_archived: bool,
     #[serde(rename = "isSLPOffer")]
