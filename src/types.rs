@@ -318,3 +318,17 @@ pub struct LoginRefreshResponse {
     pub response: Option<AccessTokenResponse>,
     pub status: Status,
 }
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CustomerPointResponse {
+    pub status: Status,
+    pub response: PointInformationResponse,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PointInformationResponse {
+    pub total_points: i64,
+    pub life_time_points: i64,
+}

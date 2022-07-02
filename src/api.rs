@@ -1,6 +1,7 @@
 use crate::types::{
-    ClientResponse, LoginRefreshResponse, LoginResponse, OfferDealStackResponse,
-    OfferDetailsResponse, OfferResponse, RestaurantLocationResponse, TokenResponse,
+    ClientResponse, CustomerPointResponse, LoginRefreshResponse, LoginResponse,
+    OfferDealStackResponse, OfferDetailsResponse, OfferResponse, RestaurantLocationResponse,
+    TokenResponse,
 };
 use crate::ClientResult;
 use rand::distributions::{Alphanumeric, DistString};
@@ -360,6 +361,25 @@ impl ApiClient<'_> {
             .get_default_request("exp/v1/customer/login/refresh", Method::POST)
             .bearer_auth(token)
             .json(&body);
+
+        let response = request.send().await?;
+        tracing::info!("raw response: {:?}", response);
+
+        Ok(ClientResponse::from_response(response).await?)
+    }
+
+    // GET https://ap-prod.api.mcd.com/exp/v1/loyalty/customer/points
+    #[instrument(ret)]
+    pub async fn get_customer_points<S>(
+        &self,
+    ) -> ClientResult<ClientResponse<CustomerPointResponse>>
+    where
+        S: Display + ?Sized + Debug,
+    {
+        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let request = self
+            .get_default_request("exp/v1/loyalty/customer/points", Method::GET)
+            .bearer_auth(token);
 
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
