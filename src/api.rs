@@ -370,12 +370,7 @@ impl ApiClient<'_> {
 
     // GET https://ap-prod.api.mcd.com/exp/v1/loyalty/customer/points
     #[instrument(ret)]
-    pub async fn get_customer_points<S>(
-        &self,
-    ) -> ClientResult<ClientResponse<CustomerPointResponse>>
-    where
-        S: Display + ?Sized + Debug,
-    {
+    pub async fn get_customer_points(&self) -> ClientResult<ClientResponse<CustomerPointResponse>> {
         let token = self.auth_token.as_ref().ok_or("no auth token set")?;
         let request = self
             .get_default_request("exp/v1/loyalty/customer/points", Method::GET)
