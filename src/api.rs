@@ -59,24 +59,25 @@ impl ApiClient<'_> {
             .header("mcd-marketid", "AU");
     }
 
-    pub fn get_uuid() -> String {
+    fn get_uuid() -> String {
         Uuid::new_v4().as_hyphenated().to_string()
     }
 
-    pub fn set_login_token<S>(&mut self, login_token: S)
+    pub fn set_login_token<S>(&mut self, login_token: &S)
     where
-        S: Display,
+        S: Display + ?Sized + Debug,
     {
         self.login_token = Some(login_token.to_string());
     }
 
-    pub fn set_auth_token<S>(&mut self, auth_token: S)
+    pub fn set_auth_token<S>(&mut self, auth_token: &S)
     where
-        S: Display,
+        S: Display + ?Sized + Debug,
     {
         self.auth_token = Some(auth_token.to_string());
     }
 
+    // POST https://ap-prod.api.mcd.com/v1/security/auth/token
     #[instrument(ret)]
     pub async fn security_auth_token<A>(
         &self,
@@ -102,6 +103,7 @@ impl ApiClient<'_> {
         Ok(ClientResponse::from_response(response).await?)
     }
 
+    // POST https://ap-prod.api.mcd.com/exp/v1/customer/login
     #[instrument(ret)]
     pub async fn customer_login<A, B, C>(
         &self,
@@ -139,7 +141,7 @@ impl ApiClient<'_> {
         Ok(ClientResponse::from_response(response).await?)
     }
 
-    // https://ap-prod.api.mcd.com/exp/v1/offers?distance=10000&exclude=14&latitude=-32.0117&longitude=115.8845&optOuts=&timezoneOffsetInMinutes=480
+    // GET https://ap-prod.api.mcd.com/exp/v1/offers?distance=10000&exclude=14&latitude=-32.0117&longitude=115.8845&optOuts=&timezoneOffsetInMinutes=480
     #[instrument(ret)]
     pub async fn get_offers<A, B, C, D, E>(
         &self,
@@ -179,7 +181,7 @@ impl ApiClient<'_> {
         Ok(ClientResponse::from_response(response).await?)
     }
 
-    // https://ap-prod.api.mcd.com/exp/v1/restaurant/location?distance=20&filter=summary&latitude=-32.0117&longitude=115.8845
+    // GET https://ap-prod.api.mcd.com/exp/v1/restaurant/location?distance=20&filter=summary&latitude=-32.0117&longitude=115.8845
     #[instrument(ret)]
     pub async fn restaurant_location<A, B, C, D>(
         &self,
@@ -213,7 +215,7 @@ impl ApiClient<'_> {
         Ok(ClientResponse::from_response(response).await?)
     }
 
-    // https://ap-prod.api.mcd.com/exp/v1/offers/details/166870
+    // GET https://ap-prod.api.mcd.com/exp/v1/offers/details/166870
     #[instrument(ret)]
     pub async fn offer_details<S>(
         &self,
@@ -345,7 +347,7 @@ impl ApiClient<'_> {
         Ok(ClientResponse::from_response(response).await?)
     }
 
-    // https://ap-prod.api.mcd.com/exp/v1/customer/login/refresh
+    // POST https://ap-prod.api.mcd.com/exp/v1/customer/login/refresh
     #[instrument(ret)]
     pub async fn customer_login_refresh<S>(
         &self,
