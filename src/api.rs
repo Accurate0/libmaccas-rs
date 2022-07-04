@@ -4,6 +4,7 @@ use crate::types::{
     TokenResponse,
 };
 use crate::ClientResult;
+use anyhow::Context;
 use rand::distributions::{Alphanumeric, DistString};
 use rand::rngs::StdRng;
 use rand::SeedableRng;
@@ -116,7 +117,7 @@ impl ApiClient<'_> {
         B: Display + ?Sized + Debug,
         C: Display + ?Sized + Debug,
     {
-        let token = self.login_token.as_ref().ok_or("no login token set")?;
+        let token = self.login_token.as_ref().context("no login token set")?;
         let mut rng = StdRng::from_entropy();
         let device_id = Alphanumeric.sample_string(&mut rng, 16);
 
@@ -169,7 +170,7 @@ impl ApiClient<'_> {
             ),
         ]);
 
-        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let token = self.auth_token.as_ref().context("no auth token set")?;
         let request = self
             .get_default_request("exp/v1/offers", Method::GET)
             .query(&params)
@@ -203,7 +204,7 @@ impl ApiClient<'_> {
             (String::from("filter"), filter.to_string()),
         ]);
 
-        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let token = self.auth_token.as_ref().context("no auth token set")?;
         let request = self
             .get_default_request("exp/v1/restaurant/location", Method::GET)
             .query(&params)
@@ -224,7 +225,7 @@ impl ApiClient<'_> {
     where
         S: Display + ?Sized + Debug,
     {
-        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let token = self.auth_token.as_ref().context("no auth token set")?;
 
         let request = self
             .get_default_request(
@@ -250,7 +251,7 @@ impl ApiClient<'_> {
         A: Display + ?Sized + Debug,
         B: Display + ?Sized + Debug,
     {
-        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let token = self.auth_token.as_ref().context("no auth token set")?;
         let params = Vec::from([
             (String::from("offset"), offset.to_string()),
             (String::from("storeId"), store_id.to_string()),
@@ -280,7 +281,7 @@ impl ApiClient<'_> {
         B: Display + ?Sized + Debug,
         C: Display + ?Sized + Debug,
     {
-        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let token = self.auth_token.as_ref().context("no auth token set")?;
         let params = Vec::from([
             (String::from("offset"), offset.to_string()),
             (String::from("storeId"), store_id.to_string()),
@@ -325,7 +326,7 @@ impl ApiClient<'_> {
             }
         );
 
-        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let token = self.auth_token.as_ref().context("no auth token set")?;
         let params = Vec::from([
             (String::from("offerId"), offer_id.to_string()),
             (String::from("offset"), offset.to_string()),
@@ -356,7 +357,7 @@ impl ApiClient<'_> {
     where
         S: Display + ?Sized + Debug,
     {
-        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let token = self.auth_token.as_ref().context("no auth token set")?;
         let body = serde_json::json!({ "refreshToken": refresh_token.to_string() });
 
         let request = self
@@ -373,7 +374,7 @@ impl ApiClient<'_> {
     // GET https://ap-prod.api.mcd.com/exp/v1/loyalty/customer/points
     #[instrument(ret)]
     pub async fn get_customer_points(&self) -> ClientResult<ClientResponse<CustomerPointResponse>> {
-        let token = self.auth_token.as_ref().ok_or("no auth token set")?;
+        let token = self.auth_token.as_ref().context("no auth token set")?;
         let request = self
             .get_default_request("exp/v1/loyalty/customer/points", Method::GET)
             .bearer_auth(token);
