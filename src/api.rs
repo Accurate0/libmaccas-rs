@@ -43,8 +43,8 @@ impl ApiClient<'_> {
     }
 
     fn get_default_request(&self, resource: &str, method: Method) -> RequestBuilder {
-        let ref client_id = self.client_id;
-        let ref base_url = self.base_url;
+        let client_id = &self.client_id;
+        let base_url = &self.base_url;
 
         return self
             .client
@@ -101,7 +101,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/login
@@ -139,7 +139,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/offers?distance=10000&exclude=14&latitude=-32.0117&longitude=115.8845&optOuts=&timezoneOffsetInMinutes=480
@@ -179,7 +179,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/restaurant/location?distance=20&filter=summary&latitude=-32.0117&longitude=115.8845
@@ -213,7 +213,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/offers/details/166870
@@ -237,7 +237,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/offers/dealstack?offset=480&storeId=951488
@@ -265,7 +265,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/offers/dealstack/166870?offerId=1139347703&offset=480&storeId=951488
@@ -298,7 +298,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // DELETE https://ap-prod.api.mcd.com/exp/v1/offers/dealstack/offer/166870?offerId=1139347703&offset=480&storeId=951488
@@ -345,7 +345,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/login/refresh
@@ -368,7 +368,7 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/loyalty/customer/points
@@ -382,6 +382,6 @@ impl ApiClient<'_> {
         let response = request.send().await?;
         tracing::info!("raw response: {:?}", response);
 
-        Ok(ClientResponse::from_response(response).await?)
+        ClientResponse::from_response(response).await
     }
 }
