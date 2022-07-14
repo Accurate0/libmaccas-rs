@@ -8,11 +8,19 @@ use serde_json::Value;
 
 use crate::Error;
 
-#[derive(Debug)]
 pub struct ClientResponse<T> {
     pub status: StatusCode,
     pub headers: HeaderMap,
     pub body: T,
+}
+
+impl<T: Debug> Debug for ClientResponse<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ClientResponse")
+            .field("status", &self.status)
+            .field("body", &self.body)
+            .finish()
+    }
 }
 
 impl<'a, T> ClientResponse<T>
