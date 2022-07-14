@@ -48,11 +48,20 @@ pub struct TokenResponse {
     pub response: Token,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AccessTokenResponse {
     pub access_token: String,
     pub refresh_token: String,
+}
+
+impl Debug for AccessTokenResponse {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("AccessTokenResponse")
+            .field("access_token", &"[redacted]")
+            .field("refresh_token", &"[redacted]")
+            .finish()
+    }
 }
 
 #[derive(serde::Deserialize, std::fmt::Debug)]
