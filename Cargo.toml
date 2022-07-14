@@ -1,6 +1,6 @@
 [package]
 name = "libmaccas"
-version = "0.11.1"
+version = "0.11.2"
 edition = "2021"
 license = "MIT"
 description = "McDonald's API Client"
