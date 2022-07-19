@@ -70,6 +70,17 @@ pub struct LoginResponse {
     pub response: AccessTokenResponse,
 }
 
+#[derive(serde::Deserialize, std::fmt::Debug)]
+pub struct RegistrationResponse {
+    pub status: Status,
+    pub response: AccessTokenResponse,
+}
+
+#[derive(serde::Deserialize, std::fmt::Debug)]
+pub struct ActivationResponse {
+    pub status: Status,
+}
+
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct OfferResponse {

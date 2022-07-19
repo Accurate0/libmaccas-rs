@@ -1,7 +1,8 @@
-use crate::types::{
-    ClientResponse, CustomerPointResponse, LoginRefreshResponse, LoginResponse,
-    OfferDealStackResponse, OfferDetailsResponse, OfferResponse, RestaurantLocationResponse,
-    TokenResponse,
+use crate::types::request::{ActivationRequest, RegistrationRequest};
+use crate::types::response::{
+    ActivationResponse, ClientResponse, CustomerPointResponse, LoginRefreshResponse, LoginResponse,
+    OfferDealStackResponse, OfferDetailsResponse, OfferResponse, RegistrationResponse,
+    RestaurantLocationResponse, TokenResponse,
 };
 use crate::ClientResult;
 use anyhow::Context;
@@ -97,6 +98,54 @@ impl ApiClient<'_> {
                 "content-type",
                 "application/x-www-form-urlencoded; charset=UTF-8",
             );
+
+        let response = request.send().await?;
+        tracing::debug!("raw response: {:?}", response);
+
+        ClientResponse::from_response(response).await
+    }
+
+    // POST https://ap-prod.api.mcd.com/exp/v1/customer/registration
+    #[instrument(ret)]
+    pub async fn customer_registration<A>(
+        &self,
+        request: &RegistrationRequest,
+        sensor_data: &A,
+    ) -> ClientResult<ClientResponse<RegistrationResponse>>
+    where
+        A: Display + ?Sized + Debug,
+    {
+        let token = self.login_token.as_ref().context("no login token set")?;
+
+        let request = self
+            .get_default_request("exp/v1/customer/registration", Method::POST)
+            .header("x-acf-sensor-data", sensor_data.to_string())
+            .bearer_auth(token)
+            .json(&request);
+
+        let response = request.send().await?;
+        tracing::debug!("raw response: {:?}", response);
+
+        ClientResponse::from_response(response).await
+    }
+
+    // POST https://ap-prod.api.mcd.com/exp/v1/customer/activation
+    #[instrument(ret)]
+    pub async fn customer_activation<A>(
+        &self,
+        request: &ActivationRequest,
+        sensor_data: &A,
+    ) -> ClientResult<ClientResponse<ActivationResponse>>
+    where
+        A: Display + ?Sized + Debug,
+    {
+        let token = self.login_token.as_ref().context("no login token set")?;
+
+        let request = self
+            .get_default_request("exp/v1/customer/activation", Method::PUT)
+            .header("x-acf-sensor-data", sensor_data.to_string())
+            .bearer_auth(token)
+            .json(&request);
 
         let response = request.send().await?;
         tracing::debug!("raw response: {:?}", response);

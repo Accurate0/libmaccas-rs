@@ -5,4 +5,4 @@ pub(crate) type Error = anyhow::Error;
 pub type ClientResult<T> = Result<T, Error>;
 
 pub use api::ApiClient;
-pub use types::ClientResponse;
+pub use types::response::ClientResponse;
