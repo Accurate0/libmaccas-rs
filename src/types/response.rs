@@ -79,6 +79,7 @@ pub struct RegistrationResponse {
 #[derive(serde::Deserialize, std::fmt::Debug)]
 pub struct ActivationResponse {
     pub status: Status,
+    pub response: Option<AccessTokenResponse>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]

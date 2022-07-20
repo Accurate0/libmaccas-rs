@@ -96,4 +96,5 @@ pub struct Subscription {
 pub struct ActivationRequest {
     pub activation_code: String,
     pub credentials: Credentials,
+    pub device_id: String,
 }
