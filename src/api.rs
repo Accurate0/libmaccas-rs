@@ -6,9 +6,6 @@ use crate::types::response::{
 };
 use crate::ClientResult;
 use anyhow::Context;
-use rand::distributions::{Alphanumeric, DistString};
-use rand::rngs::StdRng;
-use rand::SeedableRng;
 use reqwest::Method;
 use reqwest_middleware::{ClientWithMiddleware, RequestBuilder};
 use std::fmt::{Debug, Display};
@@ -155,20 +152,20 @@ impl ApiClient<'_> {
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/login
     #[instrument(ret)]
-    pub async fn customer_login<A, B, C>(
+    pub async fn customer_login<A, B, C, D>(
         &self,
         login_username: &A,
         login_password: &B,
         sensor_data: &C,
+        device_id: &D,
     ) -> ClientResult<ClientResponse<LoginResponse>>
     where
         A: Display + ?Sized + Debug,
         B: Display + ?Sized + Debug,
         C: Display + ?Sized + Debug,
+        D: Display + ?Sized + Debug,
     {
         let token = self.login_token.as_ref().context("no login token set")?;
-        let mut rng = StdRng::from_entropy();
-        let device_id = Alphanumeric.sample_string(&mut rng, 16);
 
         let credentials = serde_json::json!({
             "credentials": {
@@ -176,7 +173,7 @@ impl ApiClient<'_> {
                 "password": login_password.to_string(),
                 "type": "email"
             },
-            "deviceId": device_id
+            "deviceId": device_id.to_string()
         });
 
         let request = self

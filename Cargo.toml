@@ -1,6 +1,6 @@
 [package]
 name = "libmaccas"
-version = "0.15.0"
+version = "0.16.0"
 edition = "2021"
 license = "MIT"
 description = "McDonald's API Client"
@@ -16,6 +16,5 @@ reqwest = { version = "0.11.10", features = ["json", "gzip"] }
 uuid = { version = "1.1.2", features = ["v4"] }
 http = "0.2.6"
 reqwest-middleware = "0.1.5"
-rand = "0.8.5"
 tracing = "0.1.35"
 anyhow = "1.0.58"
