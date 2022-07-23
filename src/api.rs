@@ -77,7 +77,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/v1/security/auth/token
-    #[instrument(ret)]
+    #[instrument]
     pub async fn security_auth_token<A>(
         &self,
         client_secret: &A,
@@ -103,7 +103,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/registration
-    #[instrument(ret)]
+    #[instrument]
     pub async fn customer_registration<A>(
         &self,
         request: &RegistrationRequest,
@@ -127,7 +127,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/activation
-    #[instrument(ret)]
+    #[instrument]
     pub async fn customer_activation<A>(
         &self,
         request: &ActivationRequest,
@@ -151,7 +151,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/login
-    #[instrument(ret)]
+    #[instrument]
     pub async fn customer_login<A, B, C, D>(
         &self,
         login_username: &A,
@@ -189,7 +189,7 @@ impl ApiClient<'_> {
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/offers?distance=10000&exclude=14&latitude=-32.0117&longitude=115.8845&optOuts=&timezoneOffsetInMinutes=480
-    #[instrument(ret)]
+    #[instrument]
     pub async fn get_offers<A, B, C, D, E>(
         &self,
         distance: &A,
@@ -229,7 +229,7 @@ impl ApiClient<'_> {
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/restaurant/location?distance=20&filter=summary&latitude=-32.0117&longitude=115.8845
-    #[instrument(ret)]
+    #[instrument]
     pub async fn restaurant_location<A, B, C, D>(
         &self,
         distance: &A,
@@ -263,7 +263,7 @@ impl ApiClient<'_> {
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/offers/details/166870
-    #[instrument(ret)]
+    #[instrument]
     pub async fn offer_details<S>(
         &self,
         offer_id: &S,
@@ -287,7 +287,7 @@ impl ApiClient<'_> {
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/offers/dealstack?offset=480&storeId=951488
-    #[instrument(ret)]
+    #[instrument]
     pub async fn get_offers_dealstack<A, B>(
         &self,
         offset: &A,
@@ -315,7 +315,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/offers/dealstack/166870?offerId=1139347703&offset=480&storeId=951488
-    #[instrument(ret)]
+    #[instrument]
     pub async fn add_to_offers_dealstack<A, B, C>(
         &self,
         offer_id: &A,
@@ -348,7 +348,7 @@ impl ApiClient<'_> {
     }
 
     // DELETE https://ap-prod.api.mcd.com/exp/v1/offers/dealstack/offer/166870?offerId=1139347703&offset=480&storeId=951488
-    #[instrument(ret)]
+    #[instrument]
     pub async fn remove_from_offers_dealstack<A, B, C, D>(
         &self,
         offer_id: &A,
@@ -395,7 +395,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/login/refresh
-    #[instrument(ret)]
+    #[instrument]
     pub async fn customer_login_refresh<S>(
         &self,
         refresh_token: &S,
@@ -418,7 +418,7 @@ impl ApiClient<'_> {
     }
 
     // GET https://ap-prod.api.mcd.com/exp/v1/loyalty/customer/points
-    #[instrument(ret)]
+    #[instrument]
     pub async fn get_customer_points(&self) -> ClientResult<ClientResponse<CustomerPointResponse>> {
         let token = self.auth_token.as_ref().context("no auth token set")?;
         let request = self
