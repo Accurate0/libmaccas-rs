@@ -1,8 +1,8 @@
 use crate::types::request::{ActivationRequest, RegistrationRequest};
 use crate::types::response::{
-    ActivationResponse, ClientResponse, CustomerPointResponse, LoginRefreshResponse, LoginResponse,
-    OfferDealStackResponse, OfferDetailsResponse, OfferResponse, RegistrationResponse,
-    RestaurantLocationResponse, TokenResponse,
+    ActivationResponse, CatalogResponse, ClientResponse, CustomerPointResponse,
+    LoginRefreshResponse, LoginResponse, OfferDealStackResponse, OfferDetailsResponse,
+    OfferResponse, RegistrationResponse, RestaurantLocationResponse, TokenResponse,
 };
 use crate::ClientResult;
 use anyhow::Context;
@@ -423,6 +423,35 @@ impl ApiClient<'_> {
         let token = self.auth_token.as_ref().context("no auth token set")?;
         let request = self
             .get_default_request("exp/v1/loyalty/customer/points", Method::GET)
+            .bearer_auth(token);
+
+        let response = request.send().await?;
+        tracing::debug!("raw response: {:?}", response);
+
+        ClientResponse::from_response(response).await
+    }
+
+    // GET https://ap-prod.api.mcd.com/exp/v1/menu/catalog/AU/950442?filter=summary
+    #[instrument]
+    pub async fn get_menu_catalog<A, B, C>(
+        &self,
+        country_code: &A,
+        store_id: &B,
+        filter: &C,
+    ) -> ClientResult<ClientResponse<CatalogResponse>>
+    where
+        A: Display + ?Sized + Debug,
+        B: Display + ?Sized + Debug,
+        C: Display + ?Sized + Debug,
+    {
+        let token = self.auth_token.as_ref().context("no auth token set")?;
+        let params = Vec::from([(String::from("filter"), filter.to_string())]);
+        let request = self
+            .get_default_request(
+                format!("exp/v1/menu/catalog/{}/{}", country_code, store_id).as_str(),
+                Method::GET,
+            )
+            .query(&params)
             .bearer_auth(token);
 
         let response = request.send().await?;

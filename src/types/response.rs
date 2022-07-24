@@ -361,3 +361,524 @@ pub struct PointInformationResponse {
     pub total_points: i64,
     pub life_time_points: i64,
 }
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CatalogResponse {
+    #[serde(rename = "Market")]
+    pub market: Market,
+    #[serde(rename = "Store")]
+    pub store: Vec<Store>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Market {
+    #[serde(rename = "StaticDataVersion")]
+    pub static_data_version: Value,
+    #[serde(rename = "StaticData")]
+    pub static_data: Value,
+    #[serde(rename = "DisplayCategoryVersion")]
+    pub display_category_version: Value,
+    #[serde(rename = "DisplayCategory")]
+    pub display_category: Value,
+    #[serde(rename = "FacilityVersion")]
+    pub facility_version: Value,
+    #[serde(rename = "Facilities")]
+    pub facilities: Value,
+    #[serde(rename = "NamesVersion")]
+    pub names_version: Value,
+    #[serde(rename = "Names")]
+    pub names: Value,
+    #[serde(rename = "RestaurantsVersion")]
+    pub restaurants_version: Value,
+    #[serde(rename = "Restaurants")]
+    pub restaurants: Value,
+    #[serde(rename = "RecipeVersion")]
+    pub recipe_version: Value,
+    #[serde(rename = "Recipes")]
+    pub recipes: Value,
+    #[serde(rename = "LanguageVersion")]
+    pub language_version: Value,
+    #[serde(rename = "Languages")]
+    pub languages: Value,
+    #[serde(rename = "PaymentMethodsVersion")]
+    pub payment_methods_version: Value,
+    #[serde(rename = "PaymentMethods")]
+    pub payment_methods: Value,
+    #[serde(rename = "FeedbackTypeNamesVersion")]
+    pub feedback_type_names_version: Value,
+    #[serde(rename = "FeedbackTypeNames")]
+    pub feedback_type_names: Value,
+    #[serde(rename = "TenderTypeVersion")]
+    pub tender_type_version: Value,
+    #[serde(rename = "TenderTypes")]
+    pub tender_types: Value,
+    #[serde(rename = "PromotionVersion")]
+    pub promotion_version: Value,
+    #[serde(rename = "Promotions")]
+    pub promotions: Value,
+    #[serde(rename = "MenuTypeVersion")]
+    pub menu_type_version: Value,
+    #[serde(rename = "MenuType")]
+    pub menu_type: Value,
+    #[serde(rename = "SocialNetworkVersion")]
+    pub social_network_version: Value,
+    #[serde(rename = "SocialNetwork")]
+    pub social_network: Value,
+    #[serde(rename = "Opt-InsVersion")]
+    pub opt_ins_version: Value,
+    #[serde(rename = "Opt-Ins")]
+    pub opt_ins: Value,
+    #[serde(rename = "CustomerEnumsVersion")]
+    pub customer_enums_version: Value,
+    #[serde(rename = "CustomerEnums")]
+    pub customer_enums: Value,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Store {
+    #[serde(rename = "Store")]
+    pub store: String,
+    #[serde(rename = "RestaurantDataVersion")]
+    pub restaurant_data_version: Value,
+    #[serde(rename = "RestaurantData")]
+    pub restaurant_data: Value,
+    #[serde(rename = "PromotionVersion")]
+    pub promotion_version: String,
+    #[serde(rename = "Promotions")]
+    pub promotions: Vec<Value>,
+    #[serde(rename = "ProductVersion")]
+    pub product_version: String,
+    #[serde(rename = "Products")]
+    pub products: Vec<Product>,
+    #[serde(rename = "ProductPriceVersion")]
+    pub product_price_version: String,
+    #[serde(rename = "ProductPrice")]
+    pub product_price: Vec<ProductPrice>,
+    #[serde(rename = "RecipePriceVersion")]
+    pub recipe_price_version: Value,
+    #[serde(rename = "RecipePrice")]
+    pub recipe_price: Value,
+    #[serde(rename = "AvailabilityVersion")]
+    pub availability_version: String,
+    #[serde(rename = "Availability")]
+    pub availability: Vec<Availability>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Product {
+    #[serde(rename = "Nutrition")]
+    pub nutrition: Option<Nutrition>,
+    #[serde(rename = "Categories")]
+    #[serde(default)]
+    pub categories: Vec<Category>,
+    #[serde(rename = "Dimensions")]
+    pub dimensions: Vec<Dimension>,
+    #[serde(rename = "StaticData")]
+    pub static_data: Vec<Value>,
+    #[serde(rename = "TimeRestriction")]
+    #[serde(default)]
+    pub time_restriction: Vec<TimeRestriction>,
+    #[serde(rename = "IsPromotional")]
+    pub is_promotional: bool,
+    #[serde(rename = "DisplayImageName")]
+    pub display_image_name: String,
+    #[serde(rename = "IsPromotionalChoice")]
+    pub is_promotional_choice: bool,
+    #[serde(rename = "PromotionalLabel")]
+    pub promotional_label: String,
+    #[serde(rename = "PromotionStartDate")]
+    pub promotion_start_date: String,
+    #[serde(rename = "PromotionEndDate")]
+    pub promotion_end_date: String,
+    #[serde(rename = "PromotionRestriction")]
+    pub promotion_restriction: Value,
+    #[serde(rename = "PromotionsAssociated")]
+    pub promotions_associated: Value,
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+    #[serde(rename = "FamilyGroupID")]
+    pub family_group_id: i64,
+    #[serde(rename = "RecipeID")]
+    pub recipe_id: i64,
+    #[serde(rename = "MenuTypeID")]
+    pub menu_type_id: i64,
+    #[serde(rename = "IsMcCafe")]
+    pub is_mc_cafe: bool,
+    #[serde(rename = "IsSalable")]
+    pub is_salable: bool,
+    #[serde(rename = "MaxChoiceOptionsMOT")]
+    pub max_choice_options_mot: i64,
+    #[serde(rename = "AcceptsLight")]
+    pub accepts_light: bool,
+    #[serde(rename = "AcceptsOnly")]
+    pub accepts_only: bool,
+    #[serde(rename = "ProductType")]
+    pub product_type: i64,
+    #[serde(rename = "ProductUnit")]
+    pub product_unit: Option<String>,
+    #[serde(rename = "MaxQttyAllowedPerOrder")]
+    pub max_qtty_allowed_per_order: Option<i64>,
+    #[serde(rename = "POD")]
+    #[serde(default)]
+    pub pod: Vec<Pod>,
+    #[serde(rename = "ExtendedMenuTypeID")]
+    #[serde(default)]
+    pub extended_menu_type_id: Vec<i64>,
+    #[serde(rename = "Recipe")]
+    pub recipe: Recipe,
+    #[serde(rename = "Names")]
+    pub names: Names,
+    #[serde(rename = "NutritionPrimaryProductCode")]
+    pub nutrition_primary_product_code: Value,
+    #[serde(rename = "SmartRouting")]
+    pub smart_routing: Option<SmartRouting>,
+    #[serde(rename = "MaxExtraIngredientsQuantity")]
+    pub max_extra_ingredients_quantity: i64,
+    #[serde(rename = "VolumePrices")]
+    pub volume_prices: Value,
+    #[serde(rename = "Tags")]
+    #[serde(default)]
+    pub tags: Vec<String>,
+    #[serde(rename = "DepositCode")]
+    pub deposit_code: Value,
+    #[serde(rename = "SugarLevyAmount")]
+    pub sugar_levy_amount: Value,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Nutrition {
+    #[serde(rename = "Energy")]
+    pub energy: i64,
+    #[serde(rename = "Name")]
+    pub name: Value,
+    #[serde(rename = "Serving")]
+    pub serving: Value,
+    #[serde(rename = "Caloriesfromfat")]
+    pub caloriesfromfat: Value,
+    #[serde(rename = "Totalfat")]
+    pub totalfat: Value,
+    #[serde(rename = "TotalfatDV")]
+    pub totalfat_dv: Value,
+    #[serde(rename = "Saturatedfat")]
+    pub saturatedfat: Value,
+    #[serde(rename = "SaturatedfatDV")]
+    pub saturatedfat_dv: Value,
+    #[serde(rename = "Transfat")]
+    pub transfat: Value,
+    #[serde(rename = "Cholesterol")]
+    pub cholesterol: Value,
+    #[serde(rename = "CholesterolDV")]
+    pub cholesterol_dv: Value,
+    #[serde(rename = "Sodium")]
+    pub sodium: Value,
+    #[serde(rename = "SodiumDV")]
+    pub sodium_dv: Value,
+    #[serde(rename = "Carbohydrates")]
+    pub carbohydrates: Value,
+    #[serde(rename = "CarbohydratesDV")]
+    pub carbohydrates_dv: Value,
+    #[serde(rename = "Dietaryfiber")]
+    pub dietaryfiber: Value,
+    #[serde(rename = "DietaryfiberDV")]
+    pub dietaryfiber_dv: Value,
+    #[serde(rename = "Sugars")]
+    pub sugars: Value,
+    #[serde(rename = "Protein")]
+    pub protein: Value,
+    #[serde(rename = "ProteinDV")]
+    pub protein_dv: Value,
+    #[serde(rename = "Vitaminc")]
+    pub vitaminc: Value,
+    #[serde(rename = "Vitamina")]
+    pub vitamina: Value,
+    #[serde(rename = "Calcium")]
+    pub calcium: Value,
+    #[serde(rename = "Iron")]
+    pub iron: Value,
+    #[serde(rename = "Ingredients")]
+    pub ingredients: Value,
+    #[serde(rename = "Allergenes")]
+    pub allergenes: Value,
+    #[serde(rename = "SpecialInfo")]
+    pub special_info: Value,
+    #[serde(rename = "KCal")]
+    pub kcal: Value,
+    #[serde(rename = "ExcludedInAccount")]
+    pub excluded_in_account: Value,
+    #[serde(rename = "SelfPour")]
+    pub self_pour: Value,
+    #[serde(rename = "MinBeverageSelfPour")]
+    pub min_beverage_self_pour: Value,
+    #[serde(rename = "MaxBeverageSelfPour")]
+    pub max_beverage_self_pour: Value,
+    #[serde(rename = "MinBeverageSelfPourKCal")]
+    pub min_beverage_self_pour_kcal: Value,
+    #[serde(rename = "MaxBeverageSelfPourKCal")]
+    pub max_beverage_self_pour_kcal: Value,
+    #[serde(rename = "SelfPourProducts")]
+    pub self_pour_products: Value,
+    #[serde(rename = "PortionExtraEnergy")]
+    pub portion_extra_energy: Value,
+    #[serde(rename = "PortionExtraEnergyKCal")]
+    pub portion_extra_energy_kcal: Value,
+    #[serde(rename = "PortionLightEnergy")]
+    pub portion_light_energy: Value,
+    #[serde(rename = "PortionLightEnergyKCal")]
+    pub portion_light_energy_kcal: Value,
+    #[serde(rename = "MinEnergy")]
+    pub min_energy: Value,
+    #[serde(rename = "MaxEnergy")]
+    pub max_energy: Value,
+    #[serde(rename = "Suffix")]
+    pub suffix: Value,
+    #[serde(rename = "DisclaimerIDs")]
+    pub disclaimer_ids: Value,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Category {
+    #[serde(rename = "DisplayCategoryID")]
+    pub display_category_id: i64,
+    #[serde(rename = "DisplayOrder")]
+    pub display_order: i64,
+    #[serde(rename = "DisplaySizeSelection")]
+    pub display_size_selection: i64,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Dimension {
+    #[serde(rename = "SizeCodeID")]
+    pub size_code_id: i64,
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+    #[serde(rename = "ShowSizeToCustomer")]
+    pub show_size_to_customer: bool,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TimeRestriction {
+    #[serde(rename = "FromTime")]
+    pub from_time: String,
+    #[serde(rename = "ToTime")]
+    pub to_time: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Pod {
+    #[serde(rename = "SaleTypeID")]
+    pub sale_type_id: i64,
+    #[serde(rename = "TypeName")]
+    pub type_name: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Recipe {
+    #[serde(rename = "RecipeID")]
+    pub recipe_id: i64,
+    #[serde(rename = "IsValid")]
+    pub is_valid: bool,
+    #[serde(rename = "IsCustomerFriendly")]
+    pub is_customer_friendly: bool,
+    #[serde(rename = "DefaultSolution")]
+    pub default_solution: Value,
+    #[serde(rename = "Ingredients")]
+    pub ingredients: Vec<Ingredient>,
+    #[serde(rename = "Extras")]
+    pub extras: Vec<Extra>,
+    #[serde(rename = "Choices")]
+    pub choices: Vec<Choice>,
+    #[serde(rename = "Comments")]
+    pub comments: Vec<Comment>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Ingredient {
+    #[serde(rename = "IsCustomerFriendly")]
+    pub is_customer_friendly: bool,
+    #[serde(rename = "MinQuantity")]
+    pub min_quantity: i64,
+    #[serde(rename = "DefaultQuantity")]
+    pub default_quantity: i64,
+    #[serde(rename = "MaxQuantity")]
+    pub max_quantity: i64,
+    #[serde(rename = "RefundTreshold")]
+    pub refund_treshold: i64,
+    #[serde(rename = "ChargeTreshold")]
+    pub charge_treshold: i64,
+    #[serde(rename = "CostInclusive")]
+    pub cost_inclusive: bool,
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+    #[serde(rename = "DefaultSolution")]
+    pub default_solution: Value,
+    #[serde(rename = "ReferencePriceProductCode")]
+    pub reference_price_product_code: Value,
+    #[serde(rename = "CytIngredientGroup")]
+    pub cyt_ingredient_group: Option<String>,
+    #[serde(rename = "CytIngredientType")]
+    pub cyt_ingredient_type: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Extra {
+    #[serde(rename = "IsCustomerFriendly")]
+    pub is_customer_friendly: bool,
+    #[serde(rename = "MinQuantity")]
+    pub min_quantity: i64,
+    #[serde(rename = "DefaultQuantity")]
+    pub default_quantity: i64,
+    #[serde(rename = "MaxQuantity")]
+    pub max_quantity: i64,
+    #[serde(rename = "RefundTreshold")]
+    pub refund_treshold: i64,
+    #[serde(rename = "ChargeTreshold")]
+    pub charge_treshold: i64,
+    #[serde(rename = "CostInclusive")]
+    pub cost_inclusive: bool,
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+    #[serde(rename = "DefaultSolution")]
+    pub default_solution: Value,
+    #[serde(rename = "ReferencePriceProductCode")]
+    pub reference_price_product_code: Value,
+    #[serde(rename = "CytIngredientGroup")]
+    pub cyt_ingredient_group: Value,
+    #[serde(rename = "CytIngredientType")]
+    pub cyt_ingredient_type: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Choice {
+    #[serde(rename = "IsCustomerFriendly")]
+    pub is_customer_friendly: bool,
+    #[serde(rename = "MinQuantity")]
+    pub min_quantity: i64,
+    #[serde(rename = "DefaultQuantity")]
+    pub default_quantity: i64,
+    #[serde(rename = "MaxQuantity")]
+    pub max_quantity: i64,
+    #[serde(rename = "RefundTreshold")]
+    pub refund_treshold: i64,
+    #[serde(rename = "ChargeTreshold")]
+    pub charge_treshold: i64,
+    #[serde(rename = "CostInclusive")]
+    pub cost_inclusive: bool,
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+    #[serde(rename = "DefaultSolution")]
+    pub default_solution: Option<i64>,
+    #[serde(rename = "ReferencePriceProductCode")]
+    pub reference_price_product_code: Option<i64>,
+    #[serde(rename = "CytIngredientGroup")]
+    pub cyt_ingredient_group: Value,
+    #[serde(rename = "CytIngredientType")]
+    pub cyt_ingredient_type: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Comment {
+    #[serde(rename = "IsCustomerFriendly")]
+    pub is_customer_friendly: bool,
+    #[serde(rename = "MinQuantity")]
+    pub min_quantity: i64,
+    #[serde(rename = "DefaultQuantity")]
+    pub default_quantity: i64,
+    #[serde(rename = "MaxQuantity")]
+    pub max_quantity: i64,
+    #[serde(rename = "RefundTreshold")]
+    pub refund_treshold: i64,
+    #[serde(rename = "ChargeTreshold")]
+    pub charge_treshold: i64,
+    #[serde(rename = "CostInclusive")]
+    pub cost_inclusive: bool,
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+    #[serde(rename = "DefaultSolution")]
+    pub default_solution: Value,
+    #[serde(rename = "ReferencePriceProductCode")]
+    pub reference_price_product_code: Value,
+    #[serde(rename = "CytIngredientGroup")]
+    pub cyt_ingredient_group: Value,
+    #[serde(rename = "CytIngredientType")]
+    pub cyt_ingredient_type: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Names {
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+    #[serde(rename = "IsValid")]
+    pub is_valid: bool,
+    #[serde(rename = "Names")]
+    pub names: Vec<Name>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Name {
+    #[serde(rename = "LanguageID")]
+    pub language_id: String,
+    #[serde(rename = "ShortName")]
+    pub short_name: String,
+    #[serde(rename = "LongName")]
+    pub long_name: String,
+    #[serde(rename = "Name")]
+    pub name: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct SmartRouting {
+    #[serde(rename = "CytProduct")]
+    pub cyt_product: Value,
+    #[serde(rename = "CytGroupDisplayOrder")]
+    pub cyt_group_display_order: Value,
+    #[serde(rename = "CytIngredientGroup")]
+    pub cyt_ingredient_group: Option<String>,
+    #[serde(rename = "CytIngredientType")]
+    pub cyt_ingredient_type: Option<String>,
+    #[serde(rename = "DeliverEarlyEnabled")]
+    pub deliver_early_enabled: bool,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ProductPrice {
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+    #[serde(rename = "Prices")]
+    pub prices: Vec<Price>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Price {
+    #[serde(rename = "PriceTypeID")]
+    pub price_type_id: i64,
+    #[serde(rename = "Price")]
+    pub price: f64,
+    #[serde(rename = "IsValid")]
+    pub is_valid: bool,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Availability {
+    #[serde(rename = "ProductCode")]
+    pub product_code: i64,
+}
