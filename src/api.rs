@@ -2,7 +2,8 @@ use crate::types::request::{ActivationRequest, RegistrationRequest};
 use crate::types::response::{
     ActivationResponse, CatalogResponse, ClientResponse, CustomerPointResponse,
     LoginRefreshResponse, LoginResponse, OfferDealStackResponse, OfferDetailsResponse,
-    OfferResponse, RegistrationResponse, RestaurantLocationResponse, TokenResponse,
+    OfferResponse, RegistrationResponse, RestaurantLocationResponse, RestaurantResponse,
+    TokenResponse,
 };
 use crate::ClientResult;
 use anyhow::Context;
@@ -449,6 +450,41 @@ impl ApiClient<'_> {
         let request = self
             .get_default_request(
                 format!("exp/v1/menu/catalog/{}/{}", country_code, store_id).as_str(),
+                Method::GET,
+            )
+            .query(&params)
+            .bearer_auth(token);
+
+        let response = request.send().await?;
+        tracing::debug!("raw response: {:?}", response);
+
+        ClientResponse::from_response(response).await
+    }
+
+    // GET https://ap-prod.api.mcd.com/exp/v1/restaurant/951094?filter=full&storeUniqueIdType=NSN
+    #[instrument]
+    pub async fn get_restaurant<A, B, C>(
+        &self,
+        store_id: &A,
+        filter: &B,
+        store_unique_id_type: &C,
+    ) -> ClientResult<ClientResponse<RestaurantResponse>>
+    where
+        A: Display + ?Sized + Debug,
+        B: Display + ?Sized + Debug,
+        C: Display + ?Sized + Debug,
+    {
+        let token = self.auth_token.as_ref().context("no auth token set")?;
+        let params = Vec::from([
+            (String::from("filter"), filter.to_string()),
+            (
+                String::from("storeUniqueIdType"),
+                store_unique_id_type.to_string(),
+            ),
+        ]);
+        let request = self
+            .get_default_request(
+                format!("exp/v1/restaurant/{}", store_id).as_str(),
                 Method::GET,
             )
             .query(&params)

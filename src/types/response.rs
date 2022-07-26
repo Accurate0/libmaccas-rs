@@ -882,3 +882,212 @@ pub struct Availability {
     #[serde(rename = "ProductCode")]
     pub product_code: i64,
 }
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RestaurantResponse {
+    pub status: Status,
+    pub response: InnerRestaurantResponse,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct InnerRestaurantResponse {
+    pub restaurant: FullRestaurantInformation,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FullRestaurantInformation {
+    pub address: Address,
+    pub catalog: Catalog,
+    pub facilities: Vec<String>,
+    pub national_store_number: i64,
+    pub name: String,
+    pub status: i64,
+    pub restaurant_status: String,
+    pub location: Location,
+    pub order: Order,
+    pub phone_number: String,
+    pub time_zone: String,
+    pub url: Option<String>,
+    pub week_opening_hours: Vec<WeekOpeningHour>,
+    pub accept_offer: Option<bool>,
+    pub areas: Option<Vec<Area>>,
+    pub contacts: Option<Vec<Contact>>,
+    pub country_code: Option<String>,
+    pub distance: Option<i64>,
+    pub gbl_number: Option<String>,
+    pub id: Option<String>,
+    pub is_valid: Option<bool>,
+    pub market_code: Option<String>,
+    pub now_in_store_local_time_date: Option<String>,
+    pub nutrition: Option<RestaurantNutrition>,
+    pub offer_configuration: Option<OfferConfiguration>,
+    pub special_dayservice: Option<Vec<Value>>,
+    #[serde(rename = "statusID")]
+    pub status_id: Option<i64>,
+    pub tin_threshold_amout: Option<i64>,
+    pub store_type: Option<StoreType>,
+    pub tod_cutoff_time: Option<String>,
+    pub day_part: Option<i64>,
+    pub np_version: Option<String>,
+    pub store_cutoff_time: Option<String>,
+    pub legal_name: Option<String>,
+    pub service_payments: Option<Vec<ServicePayment>>,
+    pub general_status: Option<GeneralStatus>,
+    pub available_menu_products: Option<AvailableMenuProducts>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Catalog {
+    pub points_of_distribution: Vec<PointsOfDistribution>,
+    pub table_service: TableService,
+    pub outage_product_codes: Vec<String>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PointsOfDistribution {
+    pub digital_services: Vec<DigitalService>,
+    #[serde(rename = "locationID")]
+    pub location_id: i64,
+    pub pod: i64,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DigitalService {
+    pub key: String,
+    pub technologies: Vec<Technology>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Technology {
+    pub key: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TableService {
+    #[serde(rename = "enablePOSTableService")]
+    pub enable_postable_service: bool,
+    pub enable_table_service_eatin: String,
+    pub enable_table_service_takeout: String,
+    pub minimum_purchase_amount: f64,
+    pub table_service_enable_map: bool,
+    pub table_service_locator_enabled: bool,
+    pub table_service_locator_max_number_value: i64,
+    pub table_service_locator_min_number_value: i64,
+    pub digital_table_service_mode: String,
+    pub table_service_table_number_min_number_value: i64,
+    pub table_service_table_number_max_number_value: i64,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Order {
+    pub auto_bag_sale_information: AutoBagSaleInformation,
+    pub expected_delivery_time: String,
+    pub store_menu_type_calendar: Vec<StoreMenuTypeCalendar>,
+    pub minimum_order_value: f64,
+    pub large_order_allowed: bool,
+    pub linked_payment_information: bool,
+    pub loyalty_enabled: bool,
+    pub maximum_time_minutes: Option<i64>,
+    pub minimum_time_minutes: Option<i64>,
+    pub daypart_transition_offset: i64,
+    pub ready_on_arrival_information: bool,
+    pub order_ahead_lane: bool,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AutoBagSaleInformation {
+    pub bag_choice_product_code: i64,
+    pub bag_dummy_product_code: i64,
+    pub bag_product_code: i64,
+    pub enabled: bool,
+    pub no_bag_product_code: i64,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct StoreMenuTypeCalendar {
+    pub end_time: String,
+    #[serde(rename = "menuTypeID")]
+    pub menu_type_id: i64,
+    pub start_time: String,
+    pub week_day: i64,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Area {
+    pub area_type: String,
+    pub capacity: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Contact {
+    pub title: String,
+    pub name: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RestaurantNutrition {
+    pub energy_unit: String,
+    pub customer_self_pour: bool,
+    pub recalculate_energy_on_grill: bool,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OfferConfiguration {
+    pub enable_multiple_offers: bool,
+    pub offer_buckets: Vec<OfferBucket>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OfferBucket {
+    pub offer_bucket: String,
+    pub limit: i64,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct StoreType {}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ServicePayment {
+    #[serde(rename = "serviceID")]
+    pub service_id: i64,
+    pub sale_type_eat_in: bool,
+    pub sale_type_other: bool,
+    pub sale_type_take_out: bool,
+    pub payment_methods: Vec<i64>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GeneralStatus {
+    pub start_date: String,
+    pub status: i64,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AvailableMenuProducts {
+    #[serde(rename = "1")]
+    pub n1: Vec<i64>,
+    #[serde(rename = "2")]
+    pub n2: Vec<i64>,
+    #[serde(rename = "3")]
+    pub n3: Vec<i64>,
+}
