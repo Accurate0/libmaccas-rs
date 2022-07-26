@@ -908,7 +908,7 @@ pub struct FullRestaurantInformation {
     pub restaurant_status: String,
     pub location: Location,
     pub order: Order,
-    pub phone_number: String,
+    pub phone_number: Option<String>,
     pub time_zone: String,
     pub url: Option<String>,
     pub week_opening_hours: Vec<WeekOpeningHour>,
