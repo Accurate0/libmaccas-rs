@@ -96,7 +96,7 @@ pub struct Status {
     pub type_field: Option<String>,
     #[serde(rename = "correlationID")]
     pub correlation_id: Option<String>,
-    pub message: String,
+    pub message: Option<String>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
