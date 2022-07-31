@@ -887,7 +887,7 @@ pub struct Availability {
 #[serde(rename_all = "camelCase")]
 pub struct RestaurantResponse {
     pub status: Status,
-    pub response: InnerRestaurantResponse,
+    pub response: Option<InnerRestaurantResponse>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
