@@ -92,7 +92,7 @@ pub struct OfferResponse {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Status {
-    pub code: i64,
+    pub code: Value,
     pub type_field: Option<String>,
     #[serde(rename = "correlationID")]
     pub correlation_id: Option<String>,
