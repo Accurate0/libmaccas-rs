@@ -104,7 +104,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/registration
-    #[instrument]
+    #[instrument(skip(sensor_data))]
     pub async fn customer_registration<A>(
         &self,
         request: &RegistrationRequest,
@@ -128,7 +128,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/activation
-    #[instrument]
+    #[instrument(skip(sensor_data))]
     pub async fn customer_activation<A>(
         &self,
         request: &ActivationRequest,
@@ -152,7 +152,7 @@ impl ApiClient<'_> {
     }
 
     // POST https://ap-prod.api.mcd.com/exp/v1/customer/login
-    #[instrument]
+    #[instrument(skip(sensor_data))]
     pub async fn customer_login<A, B, C, D>(
         &self,
         login_username: &A,
