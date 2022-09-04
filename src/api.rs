@@ -127,9 +127,9 @@ impl ApiClient<'_> {
         ClientResponse::from_response(response).await
     }
 
-    // POST https://ap-prod.api.mcd.com/exp/v1/customer/activation
+    // PUT https://ap-prod.api.mcd.com/exp/v1/customer/activation
     #[instrument(skip(sensor_data))]
-    pub async fn customer_activation<A>(
+    pub async fn put_customer_activation<A>(
         &self,
         request: &ActivationRequest,
         sensor_data: &A,
@@ -141,6 +141,30 @@ impl ApiClient<'_> {
 
         let request = self
             .get_default_request("exp/v1/customer/activation", Method::PUT)
+            .header("x-acf-sensor-data", sensor_data.to_string())
+            .bearer_auth(token)
+            .json(&request);
+
+        let response = request.send().await?;
+        tracing::debug!("raw response: {:?}", response);
+
+        ClientResponse::from_response(response).await
+    }
+
+    // POST https://ap-prod.api.mcd.com/exp/v1/customer/activation
+    #[instrument(skip(sensor_data))]
+    pub async fn post_customer_activation<A>(
+        &self,
+        request: &ActivationRequest,
+        sensor_data: &A,
+    ) -> ClientResult<ClientResponse<ActivationResponse>>
+    where
+        A: Display + ?Sized + Debug,
+    {
+        let token = self.login_token.as_ref().context("no login token set")?;
+
+        let request = self
+            .get_default_request("exp/v1/customer/activation", Method::POST)
             .header("x-acf-sensor-data", sensor_data.to_string())
             .bearer_auth(token)
             .json(&request);
