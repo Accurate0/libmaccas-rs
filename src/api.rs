@@ -291,7 +291,7 @@ impl ApiClient<'_> {
     #[instrument]
     pub async fn offer_details<S>(
         &self,
-        offer_id: &S,
+        offer_proposition_id: &S,
     ) -> ClientResult<ClientResponse<OfferDetailsResponse>>
     where
         S: Display + ?Sized + Debug,
@@ -300,7 +300,7 @@ impl ApiClient<'_> {
 
         let request = self
             .get_default_request(
-                format!("exp/v1/offers/details/{offer_id}").as_str(),
+                format!("exp/v1/offers/details/{offer_proposition_id}").as_str(),
                 Method::GET,
             )
             .bearer_auth(token);
