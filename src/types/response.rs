@@ -130,7 +130,7 @@ pub struct Offer {
     pub is_redeemed: bool,
     pub offer_bucket: String,
     pub punch_info: PunchInfo,
-    pub recurring_info: RecurringInfo,
+    pub recurring_info: Option<RecurringInfo>,
     pub conditions: Conditions,
     pub color_coding_info: i64,
     pub isvalid_total_order: bool,
@@ -177,7 +177,7 @@ pub struct SaleAmountCondition {
     pub minimum: i64,
     pub pre_tax_validation: bool,
     pub include_non_product: bool,
-    pub exclude_codes: String,
+    pub exclude_codes: Option<String>,
     pub include_gift_coupons: bool,
 }
 
