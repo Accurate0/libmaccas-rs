@@ -283,7 +283,7 @@ pub struct OfferDetails {
     pub product_sets: Vec<ProductSet>,
     pub restaurants: Vec<Value>,
     pub frequency_offer_info: FrequencyOfferInfo,
-    pub recurring_info: RecurringInfo,
+    pub recurring_info: Option<RecurringInfo>,
     pub conditions: Conditions,
     pub is_dynamic_expiration: bool,
     #[serde(rename = "exclusiveTOD")]
