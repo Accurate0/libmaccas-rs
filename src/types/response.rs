@@ -296,7 +296,7 @@ pub struct OfferDetails {
 pub struct ProductSet {
     pub alias: String,
     pub quantity: i64,
-    pub min_quantity: i64,
+    pub min_quantity: Option<i64>,
     pub products: Vec<String>,
     pub action: Action,
     pub swap_mapping: Vec<Value>,
