@@ -294,7 +294,7 @@ pub struct OfferDetails {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ProductSet {
-    pub alias: String,
+    pub alias: Option<String>,
     pub quantity: i64,
     pub min_quantity: Option<i64>,
     pub products: Vec<String>,
