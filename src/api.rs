@@ -45,7 +45,7 @@ impl ApiClient<'_> {
         let client_id = &self.client_id;
         let base_url = &self.base_url;
 
-        return self
+        self
             .client
             .request(method, format!("{base_url}/{resource}"))
             .header("accept-encoding", "gzip")
@@ -56,7 +56,7 @@ impl ApiClient<'_> {
             .header("mcd-uuid", Self::get_uuid())
             .header("user-agent", "MCDSDK/21.0.26 (Android; 31; en-AU) GMA/8.2")
             .header("mcd-sourceapp", "GMA")
-            .header("mcd-marketid", "AU");
+            .header("mcd-marketid", "AU")
     }
 
     fn get_uuid() -> String {
