@@ -298,7 +298,7 @@ pub struct ProductSet {
     pub quantity: i64,
     pub min_quantity: Option<i64>,
     pub products: Vec<String>,
-    pub action: Action,
+    pub action: Option<Action>,
     pub swap_mapping: Vec<Value>,
 }
 
