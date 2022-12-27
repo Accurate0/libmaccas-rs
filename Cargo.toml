@@ -1,6 +1,6 @@
 [package]
 name = "libmaccas"
-version = "0.33.1"
+version = "0.34.0"
 edition = "2021"
 license = "MIT"
 description = "McDonald's API Client"
@@ -15,6 +15,6 @@ serde_derive = "1.0.136"
 reqwest = { version = "0.11.10", features = ["json", "gzip"] }
 uuid = { version = "1.1.2", features = ["v4"] }
 http = "0.2.6"
-reqwest-middleware = "0.1.5"
+reqwest-middleware = "0.2.0"
 tracing = "0.1.35"
 anyhow = "1.0.58"
