@@ -45,8 +45,7 @@ impl ApiClient<'_> {
         let client_id = &self.client_id;
         let base_url = &self.base_url;
 
-        self
-            .client
+        self.client
             .request(method, format!("{base_url}/{resource}"))
             .header("accept-encoding", "gzip")
             .header("accept-charset", "UTF-8")
@@ -54,7 +53,10 @@ impl ApiClient<'_> {
             .header("content-type", "application/json; charset=UTF-8")
             .header("mcd-clientid", client_id)
             .header("mcd-uuid", Self::get_uuid())
-            .header("user-agent", "MCDSDK/21.0.26 (Android; 31; en-AU) GMA/8.2")
+            .header(
+                "user-agent",
+                "MCDSDK/27.0.6 (Android; 31; en-AU) GMA/8.5.10",
+            )
             .header("mcd-sourceapp", "GMA")
             .header("mcd-marketid", "AU")
     }
