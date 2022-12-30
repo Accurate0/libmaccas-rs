@@ -91,7 +91,7 @@ impl ApiClient<'_> {
         let default_params = [("grantType", "client_credentials")];
         let request = self
             .get_default_request("v1/security/auth/token", Method::POST)
-            .query(&default_params)
+            .form(&default_params)
             .basic_auth(&self.client_id, Some(client_secret))
             .header("mcd-clientsecret", client_secret.to_string())
             .header(
