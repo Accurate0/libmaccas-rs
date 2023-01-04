@@ -13,15 +13,15 @@ use std::fmt::{Debug, Display};
 use tracing::instrument;
 use uuid::Uuid;
 
-pub struct ApiClient<'a> {
+pub struct ApiClient {
     base_url: String,
-    client: &'a ClientWithMiddleware,
+    client: ClientWithMiddleware,
     auth_token: Option<String>,
     login_token: Option<String>,
     client_id: String,
 }
 
-impl Debug for ApiClient<'_> {
+impl Debug for ApiClient {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("ApiClient")
             .field("base_url", &self.base_url)
@@ -30,8 +30,8 @@ impl Debug for ApiClient<'_> {
     }
 }
 
-impl ApiClient<'_> {
-    pub fn new(base_url: String, client: &ClientWithMiddleware, client_id: String) -> ApiClient {
+impl ApiClient {
+    pub fn new(base_url: String, client: ClientWithMiddleware, client_id: String) -> ApiClient {
         ApiClient {
             base_url,
             client,
