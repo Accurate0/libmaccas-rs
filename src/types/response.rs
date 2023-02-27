@@ -1,12 +1,10 @@
-use std::fmt::Debug;
-
+use crate::ClientError;
 use http::HeaderMap;
 use http::StatusCode;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use serde_json::Value;
-
-use crate::Error;
+use std::fmt::Debug;
 
 pub struct ClientResponse<T> {
     pub status: StatusCode,
@@ -27,7 +25,9 @@ impl<'a, T> ClientResponse<T>
 where
     T: for<'de> serde::Deserialize<'de> + Debug,
 {
-    pub async fn from_response(resp: reqwest::Response) -> Result<Self, Error> {
+    pub async fn from_response(resp: reqwest::Response) -> Result<Self, ClientError> {
+        // return the status error before trying to decode the response to propogate correct error
+        let resp = resp.error_for_status()?;
         Ok(Self {
             status: resp.status(),
             headers: resp.headers().clone(),
