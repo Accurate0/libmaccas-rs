@@ -1,5 +1,7 @@
 use std::{error::Error, fmt::Display, num::ParseIntError};
 
+use http::StatusCode;
+
 #[derive(Debug)]
 pub enum ClientError {
     RequestOrMiddlewareError(reqwest_middleware::Error),
@@ -28,6 +30,19 @@ impl From<reqwest::Error> for ClientError {
 impl From<ParseIntError> for ClientError {
     fn from(e: ParseIntError) -> Self {
         Self::Other(e.into())
+    }
+}
+
+impl ClientError {
+    pub fn status(&self) -> Option<StatusCode> {
+        match self {
+            ClientError::RequestOrMiddlewareError(e) => match e {
+                reqwest_middleware::Error::Middleware(_) => None,
+                reqwest_middleware::Error::Reqwest(e) => e.status(),
+            },
+            ClientError::RequestError(e) => e.status(),
+            ClientError::Other(_) => None,
+        }
     }
 }
 
