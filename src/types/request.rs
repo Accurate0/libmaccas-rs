@@ -1,6 +1,27 @@
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ActivateAndSignInRequest {
+    pub activation_link: String,
+    pub client_info: ClientInfo,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ClientInfo {
+    pub device: ActivationDevice,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ActivationDevice {
+    pub device_unique_id: String,
+    pub os: String,
+    pub os_version: String,
+}
+
 #[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct RegistrationRequest {

@@ -36,6 +36,20 @@ where
     }
 }
 
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ActivateAndSignInResponse {
+    pub status: Status,
+    pub response: AccessTokenResponse,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Response {
+    pub access_token: String,
+    pub refresh_token: String,
+}
+
 #[derive(serde::Deserialize, std::fmt::Debug)]
 pub struct Token {
     pub token: String,

@@ -1,9 +1,9 @@
-use crate::types::request::{ActivationRequest, RegistrationRequest};
+use crate::types::request::{ActivateAndSignInRequest, ActivationRequest, RegistrationRequest};
 use crate::types::response::{
-    ActivationResponse, CatalogResponse, ClientResponse, CustomerPointResponse,
-    LoginRefreshResponse, LoginResponse, OfferDealStackResponse, OfferDetailsResponse,
-    OfferResponse, RegistrationResponse, RestaurantLocationResponse, RestaurantResponse,
-    TokenResponse,
+    ActivateAndSignInResponse, ActivationResponse, CatalogResponse, ClientResponse,
+    CustomerPointResponse, LoginRefreshResponse, LoginResponse, OfferDealStackResponse,
+    OfferDetailsResponse, OfferResponse, RegistrationResponse, RestaurantLocationResponse,
+    RestaurantResponse, TokenResponse,
 };
 use crate::ClientResult;
 use anyhow::Context;
@@ -167,6 +167,30 @@ impl ApiClient {
 
         let request = self
             .get_default_request("exp/v1/customer/activation", Method::POST)
+            .header("x-acf-sensor-data", sensor_data.to_string())
+            .bearer_auth(token)
+            .json(&request);
+
+        let response = request.send().await?;
+        tracing::debug!("raw response: {:?}", response);
+
+        ClientResponse::from_response(response).await
+    }
+
+    // PUT https://ap-prod.api.mcd.com/exp/v1/customer/activateandsignin
+    #[instrument(skip(sensor_data))]
+    pub async fn activate_and_signin<A>(
+        &self,
+        request: &ActivateAndSignInRequest,
+        sensor_data: &A,
+    ) -> ClientResult<ClientResponse<ActivateAndSignInResponse>>
+    where
+        A: Display + ?Sized + Debug,
+    {
+        let token = self.login_token.as_ref().context("no login token set")?;
+
+        let request = self
+            .get_default_request("exp/v1/customer/activateandsignin", Method::PUT)
             .header("x-acf-sensor-data", sensor_data.to_string())
             .bearer_auth(token)
             .json(&request);
