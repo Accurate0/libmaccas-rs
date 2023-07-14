@@ -3,6 +3,14 @@ use serde_derive::Serialize;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct EmailRequest {
+    pub customer_identifier: String,
+    pub device_id: String,
+    pub registration_type: String,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ActivateAndSignInRequest {
     pub activation_link: String,
     pub client_info: ClientInfo,

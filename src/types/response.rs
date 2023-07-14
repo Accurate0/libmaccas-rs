@@ -38,6 +38,12 @@ where
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+pub struct EmailResponse {
+    pub status: Status,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ActivateAndSignInResponse {
     pub status: Status,
     pub response: AccessTokenResponse,
