@@ -67,6 +67,8 @@ pub struct Credentials {
     pub password: Option<String>,
     #[serde(rename = "type")]
     pub type_field: String,
+    #[serde(rename = "sendMagicLink")]
+    pub send_magic_link: bool,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
