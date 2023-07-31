@@ -55,10 +55,7 @@ impl ApiClient {
             .header("content-type", "application/json; charset=UTF-8")
             .header("mcd-clientid", client_id)
             .header("mcd-uuid", Self::get_uuid())
-            .header(
-                "user-agent",
-                "MCDSDK/27.0.6 (Android; 31; en-AU) GMA/8.5.10",
-            )
+            .header("user-agent", "MCDSDK/29.0.8 (Android; 33; en-AU) GMA/8.6.2")
             .header("mcd-sourceapp", "GMA")
             .header("mcd-marketid", "AU")
     }
